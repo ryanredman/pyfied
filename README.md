@@ -1,6 +1,6 @@
-# pyfimon
+# pyfied
 
-Python File Monitor
+Python File Editor
 
 query /etc/hosts for value (host)
 ssh to that value

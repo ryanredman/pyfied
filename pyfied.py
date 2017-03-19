@@ -13,9 +13,19 @@ parser.add_argument('--ssh_user', help="SSH Username")
 parser.add_argument('--ssh_pass', help="SSH Password")
 
 args = parser.parse_args()
-print(args.host)
 
-ssh_command = " [ -e " + args.file + " ] && sed -i.bak '" + re.sub(r"([\"'|&;])", r"\\\1", args.scmd) + "' " + args.file + " ; diff -y -W120 " + args.file + " " + args.file + ".bak"
+ssh_command = (
+               "if [ -e " + args.file + " ]; then\n"+ 
+               "\tsed -i.bak \"" + re.sub(r"([\"'|&;])", r"\\\1", args.scmd) + "\" " + args.file + "\n" +
+               "\tDIFF=$(diff -q " + args.file + " " + args.file + ".bak)\n" +                    
+               "\tif [ \"$DIFF\" ]; then\n"+
+               "\t\tDIFF=$(diff -y -W120 " + args.file + " " + args.file + ".bak)\n"+
+               "\t\techo \"$DIFF\"\n"+
+               "\tfi\n"+
+               "fi"
+              )
+
+#print(ssh_command)
 
 with open("/etc/hosts") as hostfile:
     for line in hostfile:

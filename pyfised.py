@@ -66,22 +66,26 @@ else:
     sed_command = "sed -i.bak "
     for sc in args.cmd:
         sed_command += "-e \"" + re.sub(r"([\"'|&;$])", r"\\\1", sc) + "\" "
-        
+
     ssh_command = (
                 "if [ -e " + args.file + " ]; then\n"+ 
                 "\t"+ sed_command + args.file + "\n" +
-                "\tDIFF=$(diff -q " + args.file + ".bak " + args.file + ")\n" +                    
-                "\tif [ \"$DIFF\" ]; then\n"+
-                "\t\tDIFF=$(diff " + args.file + ".bak " + args.file + ")\n"+
-                "\t\techo \"$DIFF\"\n"+
+                "\tif [ $? -eq 0 ]; then \n" +
+                "\t\tDIFF=$(diff -q " + args.file + ".bak " + args.file + ")\n" +                    
+                "\t\tif [ \"$DIFF\" ]; then\n"+
+                "\t\t\tDIFF=$(diff " + args.file + ".bak " + args.file + ")\n"+
+                "\t\t\techo \"$DIFF\"\n"+
+                "\t\telse\n"+
+                "\t\t\techo \"No Changes Written.\"\n"+
+                "\t\tfi\n"+
                 "\telse\n"+
-                "\t\techo \"No Changes Written.\"\n"+
+                "\t\t(echo >&2 \"Error: sed command failed \"; exit 1)\n"+
                 "\tfi\n"+
                 "else\n"+
                 "\t(echo >&2 \"Error: Unable to locate file: \"" + args.file + "; exit 1)\n"+
                 "fi"
                 )
-    
+
     print("Attempting to connect to: " + args.host + " (" + ip + ")", file=sys.stderr)
     try:
         ssh_client = paramiko.SSHClient()

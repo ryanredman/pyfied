@@ -1,6 +1,6 @@
-# pyfied
+# pyfised
 
-Python File Editor
+Python File Seditor
 
 query /etc/hosts for value (host)
 ssh to that value

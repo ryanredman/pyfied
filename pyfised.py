@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# pyfied - Python File Editor
+# pyfised - Python File Seditor
 # Written by Ryan Redman
 
 # Script resolves a given hostname via /etc/hosts,
@@ -16,7 +16,7 @@ import paramiko
 import re
 import sys
 
-parser = argparse.ArgumentParser(description="%(prog)s - Python File Editor",
+parser = argparse.ArgumentParser(description="%(prog)s - Python File Seditor",
                                  usage="%(prog)s [--help | -h] [--ssh_user USERNAME] [--ssh_pass PASSWORD] host file cmd [cmd ...]")
 
 ### Required ###

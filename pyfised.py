@@ -22,7 +22,7 @@ parser = argparse.ArgumentParser(description="%(prog)s - Python File Seditor",
 ### Required ###
 parser.add_argument('host', help="Hostname")
 parser.add_argument('file', help="File to change")
-parser.add_argument('cmd', nargs="*",  help="Sed command")
+parser.add_argument('cmd', nargs="+",  help="Sed command")
 
 ### Optional ###
 parser.add_argument('--ssh_user', help="SSH Username")
